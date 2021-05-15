@@ -26,11 +26,13 @@ const update = async (id, newBoard) => {
 };
 
 const remove = async (id) => {
-  const match = DB.boards.findIndex((user) => user.id === id);
-  if (match !== -1) {
+  const match = DB.boards.findIndex((board) => board.id === id);
+  if (match === -1) {
     // TODO: not found
   }
   DB.boards.splice(match, 1);
+
+  DB.tasks = DB.tasks.filter((task) => task.boardId !== id);
 };
 
 module.exports = { getAll, getById, save, update, remove };

@@ -28,11 +28,17 @@ const update = async (id, newUser) => {
 
 const remove = async (id) => {
   const match = DB.users.findIndex((user) => user.id === id);
-  if (match !== -1) {
+  if (match === -1) {
     // TODO: not found
   }
   DB.users.splice(match, 1);
-  // DB.users = DB.users.filter((user) => user.id !== id);
+
+  DB.tasks = DB.tasks.map((task) => {
+    if (task.userId === id) {
+      return { ...task, userId: null };
+    }
+    return task;
+  });
 };
 
 module.exports = { getAll, getById, save, update, remove };
