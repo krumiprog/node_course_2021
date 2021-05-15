@@ -1,19 +1,9 @@
 const DB = require('../../db/inMemoryDb');
 
-const getAll = async (boardId) => {
-  const tasks = DB.tasks.filter((task) => task.boardId === boardId);
-  return tasks;
-};
+const getAll = async (boardId) =>
+  DB.tasks.filter((task) => task.boardId === boardId);
 
-const getById = async (boardId, id) => {
-  const match = DB.tasks.find(
-    (task) => task.boardId === boardId && task.id === id
-  );
-  if (!match) {
-    // TODO: not found
-  }
-  return match;
-};
+const getById = async (boardId, id) => DB.tasks.find((task) => task.id === id);
 
 const save = async (task) => {
   DB.tasks.push(task);
@@ -24,9 +14,6 @@ const update = async (boardId, id, newTask) => {
   const match = DB.tasks.find(
     (task) => task.boardId === boardId && task.id === id
   );
-  if (!match) {
-    // TODO: method
-  }
   match.title = newTask.title;
   match.order = newTask.order;
   match.description = newTask.description;
@@ -37,13 +24,11 @@ const update = async (boardId, id, newTask) => {
 };
 
 const remove = async (boardId, id) => {
-  const match = DB.tasks.findIndex(
-    (task) => task.boardId === id && task.id === id
-  );
-  if (match === -1) {
-    // TODO: not found
+  const match = DB.tasks.findIndex((task) => task.id === id);
+  if (match !== -1) {
+    DB.tasks.splice(match, 1);
   }
-  DB.tasks.splice(match, 1);
+  return match;
 };
 
 module.exports = { getAll, getById, save, update, remove };

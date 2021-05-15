@@ -4,9 +4,6 @@ const getAll = async () => DB.boards;
 
 const getById = async (id) => {
   const match = DB.boards.find((board) => board.id === id);
-  if (!match) {
-    // TODO: not found
-  }
   return match;
 };
 
@@ -17,9 +14,9 @@ const save = async (board) => {
 
 const update = async (id, newBoard) => {
   const match = DB.boards.find((board) => board.id === id);
-  if (!match) {
-    // TODO: not found
-  }
+  // if (!match) {
+  //   return match;
+  // }
   match.title = newBoard.title;
   match.columns = newBoard.columns;
   return match;
@@ -27,12 +24,23 @@ const update = async (id, newBoard) => {
 
 const remove = async (id) => {
   const match = DB.boards.findIndex((board) => board.id === id);
-  if (match === -1) {
-    // TODO: not found
-  }
-  DB.boards.splice(match, 1);
 
-  DB.tasks = DB.tasks.filter((task) => task.boardId !== id);
+  if (match !== -1) {
+    // console.log('BEFORE', DB.tasks);
+    DB.tasks = DB.tasks.filter((task) => task.boardId !== id);
+    DB.boards.splice(match, 1);
+    // console.log('AFTER', DB.tasks);
+  }
+  return match;
 };
+
+// const remove = async (id) => {
+//   const match = DB.boards.findIndex((board) => board.id === id);
+//   if (match !== -1) {
+//     DB.tasks = DB.tasks.filter((task) => task.boardId !== id);
+//     DB.boards.splice(match, 1);
+//   }
+//   return match;
+// };
 
 module.exports = { getAll, getById, save, update, remove };

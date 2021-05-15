@@ -11,6 +11,9 @@ router.route('/').get(async (req, res) => {
 router.route('/:id').get(async (req, res) => {
   const { id } = req.params;
   const board = await boardsService.getById(id);
+  if (!board) {
+    res.sendStatus(404);
+  }
   res.status(200).json(board);
 });
 
@@ -35,8 +38,13 @@ router.route('/:id').put(async (req, res) => {
 });
 
 router.route('/:id').delete(async (req, res) => {
+  // console.log('============', req.params);
+
   const { id } = req.params;
-  await boardsService.remove(id);
+  const match = await boardsService.remove(id);
+  if (match === -1) {
+    res.sendStatus(404);
+  }
   res.sendStatus(204);
 });
 
