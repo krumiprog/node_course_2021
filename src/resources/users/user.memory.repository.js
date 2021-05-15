@@ -4,9 +4,6 @@ const getAll = async () => DB.users;
 
 const getById = async (id) => {
   const match = DB.users.find((user) => user.id === id);
-  if (!match) {
-    // TODO: not found
-  }
   return match;
 };
 
@@ -17,9 +14,6 @@ const save = async (user) => {
 
 const update = async (id, newUser) => {
   const match = DB.users.find((user) => user.id === id);
-  if (!match) {
-    // TODO: not found
-  }
   match.name = newUser.name;
   match.login = newUser.login;
   match.password = newUser.password;
@@ -28,9 +22,6 @@ const update = async (id, newUser) => {
 
 const remove = async (id) => {
   const match = DB.users.findIndex((user) => user.id === id);
-  if (match === -1) {
-    // TODO: not found
-  }
   DB.users.splice(match, 1);
 
   DB.tasks = DB.tasks.map((task) => {

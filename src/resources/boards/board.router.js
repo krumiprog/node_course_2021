@@ -38,8 +38,6 @@ router.route('/:id').put(async (req, res) => {
 });
 
 router.route('/:id').delete(async (req, res) => {
-  // console.log('============', req.params);
-
   const { id } = req.params;
   const match = await boardsService.remove(id);
   if (match === -1) {

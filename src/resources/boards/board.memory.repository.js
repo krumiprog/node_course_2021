@@ -14,9 +14,6 @@ const save = async (board) => {
 
 const update = async (id, newBoard) => {
   const match = DB.boards.find((board) => board.id === id);
-  // if (!match) {
-  //   return match;
-  // }
   match.title = newBoard.title;
   match.columns = newBoard.columns;
   return match;

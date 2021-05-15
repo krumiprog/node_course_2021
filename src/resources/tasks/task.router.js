@@ -5,7 +5,7 @@ const taskService = require('./task.service');
 router.route('/:boardId/tasks').get(async (req, res) => {
   const { boardId } = req.params;
   const tasks = await taskService.getAll(boardId);
-  res.status(200).json(tasks.map(Task.toResponse));
+  res.status(200).json(tasks);
 });
 
 router.route('/:boardId/tasks/:id').get(async (req, res) => {
