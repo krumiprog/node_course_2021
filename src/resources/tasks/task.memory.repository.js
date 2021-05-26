@@ -3,7 +3,7 @@ const DB = require('../../db/inMemoryDb');
 /**
  * Get all tasks by board ID from the Database.
  * @param {string} boardId - A board ID.
- * @returns {Task[]}
+ * @returns {Task[]} An array of tasks.
  */
 const getAll = async (boardId) =>
   DB.tasks.filter((task) => task.boardId === boardId);
@@ -12,14 +12,14 @@ const getAll = async (boardId) =>
  * Get the task by ID from the Database.
  * @param {string} boardId - A board ID.
  * @param {string} id - A task ID.
- * @returns {Task | undefined}
+ * @returns {Task | undefined} A task.
  */
 const getById = async (boardId, id) => DB.tasks.find((task) => task.id === id);
 
 /**
  * Save the new task to the Database.
  * @param {Task} task - A new task.
- * @returns {Task}
+ * @returns {Task} A new task.
  */
 const save = async (task) => {
   DB.tasks.push(task);
@@ -31,7 +31,7 @@ const save = async (task) => {
  * @param {string} boardId - A board ID.
  * @param {string} id - A task ID.
  * @param {Task} newTask - A new task.
- * @returns {Task}
+ * @returns {Task} An updated task.
  */
 const update = async (boardId, id, newTask) => {
   const match = DB.tasks.find(
@@ -50,7 +50,7 @@ const update = async (boardId, id, newTask) => {
  * Remove the task from the Database.
  * @param {string} boardId - A board ID.
  * @param {string} id - A task ID.
- * @returns {number}
+ * @returns {number} A index of a removed task.
  */
 const remove = async (boardId, id) => {
   const match = DB.tasks.findIndex((task) => task.id === id);
