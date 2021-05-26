@@ -10,7 +10,7 @@ const getAll = async () => DB.boards;
 /**
  * Get the board by ID from the Database.
  * @param {string} id - A board ID.
- * @returns {Board | number}
+ * @returns {Board | undefined}
  */
 const getById = async (id) => {
   const match = DB.boards.find((board) => board.id === id);
@@ -18,7 +18,7 @@ const getById = async (id) => {
 };
 
 /**
- * Sava the new board to the Database.
+ * Save the new board to the Database.
  * @param {Board} board - A new board.
  * @returns {Board}
  */
@@ -28,7 +28,7 @@ const save = async (board) => {
 };
 
 /**
- * Update the board by ID with the new value in the Database.
+ * Update the board to the Database.
  * @param {string} id - A board ID.
  * @param {Board} newBoard - A new board.
  * @returns {Board}
@@ -41,7 +41,7 @@ const update = async (id, newBoard) => {
 };
 
 /**
- * Remove a board by ID from the Database.
+ * Remove the board from the Database.
  * @param {string} id - A board ID.
  * @returns {number}
  */
