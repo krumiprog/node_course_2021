@@ -1,4 +1,6 @@
 // @ts-check
+/** @module tasks/service */
+
 const taskRepo = require('./task.memory.repository');
 
 /**

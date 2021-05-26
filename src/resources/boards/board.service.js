@@ -1,4 +1,6 @@
 // @ts-check
+/** @module boards/service */
+
 const boardsRepo = require('./board.memory.repository');
 
 /**

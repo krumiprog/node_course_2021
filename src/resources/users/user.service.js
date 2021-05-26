@@ -1,4 +1,6 @@
 // @ts-check
+/**  @module users/service */
+
 const usersRepo = require('./user.memory.repository');
 
 /**

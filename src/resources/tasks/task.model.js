@@ -1,8 +1,11 @@
 // @ts-check
+/** @module tasks/model */
+
 const { v4: uuid } = require('uuid');
 
 /**
  * Class representing a Task.
+ * @global
  */
 class Task {
   /**

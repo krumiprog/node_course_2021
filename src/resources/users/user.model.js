@@ -1,7 +1,11 @@
+// @ts-check
+/** @module users/model */
+
 const { v4: uuid } = require('uuid');
 
 /**
  * Class representing a User.
+ * @global
  */
 class User {
   /**

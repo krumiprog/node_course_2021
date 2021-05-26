@@ -1,9 +1,12 @@
+// @ts-check
+/** @module tasks/repository */
+
 const DB = require('../../db/inMemoryDb');
 
 /**
  * Get all tasks by board ID from the Database.
  * @param {string} boardId - A board ID.
- * @returns {Task[]} An array of tasks.
+ * @returns {Promise<Task[]>} An array of tasks.
  */
 const getAll = async (boardId) =>
   DB.tasks.filter((task) => task.boardId === boardId);
@@ -12,17 +15,17 @@ const getAll = async (boardId) =>
  * Get the task by ID from the Database.
  * @param {string} boardId - A board ID.
  * @param {string} id - A task ID.
- * @returns {Task | undefined} A task.
+ * @returns {Promise<Task | undefined>} A task.
  */
 const getById = async (boardId, id) => DB.tasks.find((task) => task.id === id);
 
 /**
  * Save the new task to the Database.
  * @param {Task} task - A new task.
- * @returns {Task} A new task.
+ * @returns {Promise<Task>} A new task.
  */
 const save = async (task) => {
-  DB.tasks.push(task);
+  await DB.tasks.push(task);
   return task;
 };
 
@@ -31,10 +34,10 @@ const save = async (task) => {
  * @param {string} boardId - A board ID.
  * @param {string} id - A task ID.
  * @param {Task} newTask - A new task.
- * @returns {Task} An updated task.
+ * @returns {Promise<Task>} An updated task.
  */
 const update = async (boardId, id, newTask) => {
-  const match = DB.tasks.find(
+  const match = await DB.tasks.find(
     (task) => task.boardId === boardId && task.id === id
   );
   match.title = newTask.title;
@@ -50,10 +53,10 @@ const update = async (boardId, id, newTask) => {
  * Remove the task from the Database.
  * @param {string} boardId - A board ID.
  * @param {string} id - A task ID.
- * @returns {number} A index of a removed task.
+ * @returns {Promise<number>} A index of a removed task.
  */
 const remove = async (boardId, id) => {
-  const match = DB.tasks.findIndex((task) => task.id === id);
+  const match = await DB.tasks.findIndex((task) => task.id === id);
   if (match !== -1) {
     DB.tasks.splice(match, 1);
   }

@@ -1,4 +1,6 @@
 // @ts-check
+/** @module board/model */
+
 const { v4: uuid } = require('uuid');
 
 /**
@@ -11,6 +13,7 @@ const { v4: uuid } = require('uuid');
 
 /**
  * Class representing a Board.
+ * @global
  */
 class Board {
   /**
