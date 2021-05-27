@@ -11,10 +11,10 @@ class User {
   /**
    * Create a user.
    * @param {object} user
-   * @param {string} board.id
-   * @param {string} board.name
-   * @param {string} board.login
-   * @param {string} board.password
+   * @param {string} user.id
+   * @param {string} user.name
+   * @param {string} user.login
+   * @param {string} user.password
    */
   constructor({
     id = uuid(),
