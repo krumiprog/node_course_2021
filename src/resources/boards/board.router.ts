@@ -5,18 +5,18 @@ import BoardService from './board.service.js';
 
 const router = Router();
 
-router.route('/').get(async (req, res) => {
+router.route('/').get((req, res) => {
   console.log(req);
 
-  const boards = await BoardService.getAll();
+  const boards = BoardService.getAll();
 
   res.status(200).json(boards);
 });
 
-router.route('/:id').get(async (req, res) => {
+router.route('/:id').get((req, res) => {
   const { id } = req.params;
 
-  const board = await BoardService.getById(id);
+  const board = BoardService.getById(id);
 
   if (!board) {
     res.sendStatus(404);
@@ -25,37 +25,37 @@ router.route('/:id').get(async (req, res) => {
   res.status(200).json(board);
 });
 
-router.route('/').post(async (req, res) => {
-  const { title, columns } = req.body;
+router.route('/').post((req, res) => {
+  const { title, columns } = req.body as {
+    title: string;
+    columns: { title: string; order: number }[];
+  };
 
-  const columnsWithId = columns.map(
-    (column: { title: string; order: number }) =>
-      new Column(undefined, column.title, column.order)
+  const columnsWithId: Column[] = columns.map(
+    (column) => new Column(undefined, column.title, column.order)
   );
 
-  const board = await BoardService.save(
-    new Board(undefined, title, columnsWithId)
-  );
+  const board = BoardService.save(new Board(undefined, title, columnsWithId));
 
   res.status(201).json(board);
 });
 
-router.route('/:id').put(async (req, res) => {
+router.route('/:id').put((req, res) => {
   const { id } = req.params;
-  const { title, columns } = req.body;
+  const { title, columns } = req.body as {
+    title: string;
+    columns: Column[];
+  };
 
-  const board = await BoardService.update(
-    id,
-    new Board(undefined, title, columns)
-  );
+  const board = BoardService.update(id, new Board(undefined, title, columns));
 
   res.status(200).json(board);
 });
 
-router.route('/:id').delete(async (req, res) => {
+router.route('/:id').delete((req, res) => {
   const { id } = req.params;
 
-  const match = await BoardService.remove(id);
+  const match = BoardService.remove(id);
 
   if (match === -1) {
     res.sendStatus(404);

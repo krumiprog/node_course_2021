@@ -2,23 +2,23 @@ import TaskRepository from './task.memory.repository.js';
 import Task from './task.model.js';
 
 class TaskService {
-  static async getAll(boardId: string) {
+  static getAll(boardId: string): Task[] {
     return TaskRepository.getAll(boardId);
   }
 
-  static async getById(boardId: string, id: string) {
+  static getById(boardId: string, id: string): Task | undefined {
     return TaskRepository.getById(boardId, id);
   }
 
-  static async save(task: Task) {
+  static save(task: Task): Task {
     return TaskRepository.save(task);
   }
 
-  static async update(boardId: string, id: string, task: Task) {
+  static update(boardId: string, id: string, task: Task): Task | undefined {
     return TaskRepository.update(boardId, id, task);
   }
 
-  static async remove(boardId: string, id: string) {
+  static remove(boardId: string, id: string): number {
     return TaskRepository.remove(boardId, id);
   }
 }

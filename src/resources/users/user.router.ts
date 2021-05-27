@@ -4,18 +4,24 @@ import UserService from './user.service.js';
 
 const router = Router();
 
-router.route('/').get(async (req, res) => {
+interface IBodyUser {
+  name: string;
+  login: string;
+  password: string;
+}
+
+router.route('/').get((req, res) => {
   console.log(req);
 
-  const users = await UserService.getAll();
+  const users = UserService.getAll();
 
-  res.status(200).json(users.map(User.toResponse));
+  res.status(200).json(users.map((user) => User.toResponse(user)));
 });
 
-router.route('/:id').get(async (req, res) => {
+router.route('/:id').get((req, res) => {
   const { id } = req.params;
 
-  const user = await UserService.getById(id);
+  const user = UserService.getById(id);
 
   if (user) {
     res.status(200).json(User.toResponse(user));
@@ -24,21 +30,19 @@ router.route('/:id').get(async (req, res) => {
   res.sendStatus(404);
 });
 
-router.route('/').post(async (req, res) => {
-  const { name, login, password } = req.body;
+router.route('/').post((req, res) => {
+  const { name, login, password } = req.body as IBodyUser;
 
-  const user = await UserService.save(
-    new User(undefined, name, login, password)
-  );
+  const user = UserService.save(new User(undefined, name, login, password));
 
   res.status(201).json(User.toResponse(user));
 });
 
-router.route('/:id').put(async (req, res) => {
+router.route('/:id').put((req, res) => {
   const { id } = req.params;
-  const { name, login, password } = req.body;
+  const { name, login, password } = req.body as IBodyUser;
 
-  const user = await UserService.update(
+  const user = UserService.update(
     id,
     new User(undefined, name, login, password)
   );
@@ -50,10 +54,10 @@ router.route('/:id').put(async (req, res) => {
   res.sendStatus(404);
 });
 
-router.route('/:id').delete(async (req, res) => {
+router.route('/:id').delete((req, res) => {
   const { id } = req.params;
 
-  await UserService.remove(id);
+  UserService.remove(id);
 
   res.sendStatus(204);
 });

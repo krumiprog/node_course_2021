@@ -4,18 +4,27 @@ import TaskService from './task.service.js';
 
 const router = Router();
 
-router.route('/:boardId/tasks').get(async (req, res) => {
+interface IBodyTask {
+  title: string;
+  order: number;
+  description: string;
+  userId: string;
+  boardId: string;
+  columnId: string;
+}
+
+router.route('/:boardId/tasks').get((req, res) => {
   const { boardId } = req.params;
 
-  const tasks = await TaskService.getAll(boardId);
+  const tasks = TaskService.getAll(boardId);
 
   res.status(200).json(tasks);
 });
 
-router.route('/:boardId/tasks/:id').get(async (req, res) => {
+router.route('/:boardId/tasks/:id').get((req, res) => {
   const { boardId, id } = req.params;
 
-  const task = await TaskService.getById(boardId, id);
+  const task = TaskService.getById(boardId, id);
 
   if (!task) {
     res.sendStatus(404);
@@ -24,11 +33,11 @@ router.route('/:boardId/tasks/:id').get(async (req, res) => {
   res.status(200).json(task);
 });
 
-router.route('/:boardId/tasks').post(async (req, res) => {
+router.route('/:boardId/tasks').post((req, res) => {
   const { boardId: paramBoardId } = req.params;
-  const { title, order, description, userId, columnId } = req.body;
+  const { title, order, description, userId, columnId } = req.body as IBodyTask;
 
-  const task = await TaskService.save(
+  const task = TaskService.save(
     new Task(
       undefined,
       title,
@@ -42,11 +51,18 @@ router.route('/:boardId/tasks').post(async (req, res) => {
   res.status(201).json(task);
 });
 
-router.route('/:boardId/tasks/:id').put(async (req, res) => {
+router.route('/:boardId/tasks/:id').put((req, res) => {
   const { boardId: paramBoardId, id: paramId } = req.params;
-  const { title, order, description, userId, boardId, columnId } = req.body;
+  const {
+    title,
+    order,
+    description,
+    userId,
+    boardId,
+    columnId,
+  } = req.body as IBodyTask;
 
-  const task = await TaskService.update(
+  const task = TaskService.update(
     paramBoardId,
     paramId,
     new Task(undefined, title, order, description, userId, boardId, columnId)
@@ -55,9 +71,9 @@ router.route('/:boardId/tasks/:id').put(async (req, res) => {
   res.status(200).json(task);
 });
 
-router.route('/:boardId/tasks/:id').delete(async (req, res) => {
+router.route('/:boardId/tasks/:id').delete((req, res) => {
   const { boardId, id } = req.params;
-  const task = await TaskService.remove(boardId, id);
+  const task = TaskService.remove(boardId, id);
 
   if (task === -1) {
     res.sendStatus(404);

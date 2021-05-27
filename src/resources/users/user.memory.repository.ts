@@ -2,21 +2,21 @@ import DB from '../../db/inMemoryDb.js';
 import User from './user.model.js';
 
 class UserRepository {
-  static async getAll(): Promise<User[]> {
+  static getAll(): User[] {
     return DB.users;
   }
 
-  static async getById(id: string): Promise<User | undefined> {
-    return await DB.users.find((user) => user.id === id);
+  static getById(id: string): User | undefined {
+    return DB.users.find((user) => user.id === id);
   }
 
-  static async save(user: User): Promise<User> {
-    await DB.users.push(user);
+  static save(user: User): User {
+    DB.users.push(user);
     return user;
   }
 
-  static async update(id: string, newUser: User): Promise<User | undefined> {
-    const match = await DB.users.find((user) => user.id === id);
+  static update(id: string, newUser: User): User | undefined {
+    const match = DB.users.find((user) => user.id === id);
 
     if (match) {
       match.name = newUser.name;
@@ -27,8 +27,8 @@ class UserRepository {
     return match;
   }
 
-  static async remove(id: string) {
-    const match = await DB.users.findIndex((user) => user.id === id);
+  static remove(id: string): number {
+    const match = DB.users.findIndex((user) => user.id === id);
     DB.users.splice(match, 1);
 
     DB.tasks = DB.tasks.map((task) => {
@@ -37,6 +37,8 @@ class UserRepository {
       }
       return task;
     });
+
+    return match;
   }
 }
 

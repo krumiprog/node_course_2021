@@ -2,23 +2,23 @@ import BoardRepository from './board.memory.repository.js';
 import Board from './board.model.js';
 
 class BoardService {
-  static async getAll() {
+  static getAll(): Board[] {
     return BoardRepository.getAll();
   }
 
-  static async getById(id: string) {
+  static getById(id: string): Board | undefined {
     return BoardRepository.getById(id);
   }
 
-  static async save(board: Board) {
+  static save(board: Board): Board {
     return BoardRepository.save(board);
   }
 
-  static async update(id: string, board: Board) {
+  static update(id: string, board: Board): Board | undefined {
     return BoardRepository.update(id, board);
   }
 
-  static async remove(id: string) {
+  static remove(id: string): number {
     return BoardRepository.remove(id);
   }
 }

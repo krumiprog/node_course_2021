@@ -2,26 +2,22 @@ import DB from '../../db/inMemoryDb.js';
 import Task from './task.model.js';
 
 class TaskRepository {
-  static async getAll(boardId: string): Promise<Task[]> {
+  static getAll(boardId: string): Task[] {
     return DB.tasks.filter((task) => task.boardId === boardId);
   }
 
-  static async getById(boardId: string, id: string): Promise<Task | undefined> {
-    await DB.tasks.find((task) => task.boardId === boardId);
-    return await DB.tasks.find((task) => task.id === id);
+  static getById(boardId: string, id: string): Task | undefined {
+    DB.tasks.find((task) => task.boardId === boardId);
+    return DB.tasks.find((task) => task.id === id);
   }
 
-  static async save(task: Task): Promise<Task> {
-    await DB.tasks.push(task);
+  static save(task: Task): Task {
+    DB.tasks.push(task);
     return task;
   }
 
-  static async update(
-    boardId: string,
-    id: string,
-    newTask: Task
-  ): Promise<Task | undefined> {
-    const match = await DB.tasks.find(
+  static update(boardId: string, id: string, newTask: Task): Task | undefined {
+    const match = DB.tasks.find(
       (task) => task.boardId === boardId && task.id === id
     );
 
@@ -37,12 +33,12 @@ class TaskRepository {
     return match;
   }
 
-  static async remove(boardId: string, id: string) {
-    await DB.tasks.findIndex((task) => task.boardId === boardId);
-    const match = await DB.tasks.findIndex((task) => task.id === id);
+  static remove(boardId: string, id: string): number {
+    DB.tasks.findIndex((task) => task.boardId === boardId);
+    const match = DB.tasks.findIndex((task) => task.id === id);
 
     if (match !== -1) {
-      await DB.tasks.splice(match, 1);
+      DB.tasks.splice(match, 1);
     }
 
     return match;

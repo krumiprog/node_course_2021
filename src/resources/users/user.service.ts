@@ -2,23 +2,23 @@ import UserRepository from './user.memory.repository.js';
 import User from './user.model.js';
 
 class UserService {
-  static async getAll() {
+  static getAll(): User[] {
     return UserRepository.getAll();
   }
 
-  static async getById(id: string) {
+  static getById(id: string): User | undefined {
     return UserRepository.getById(id);
   }
 
-  static async save(user: User) {
+  static save(user: User): User {
     return UserRepository.save(user);
   }
 
-  static async update(id: string, user: User) {
+  static update(id: string, user: User): User | undefined {
     return UserRepository.update(id, user);
   }
 
-  static async remove(id: string) {
+  static remove(id: string): number {
     return UserRepository.remove(id);
   }
 }
