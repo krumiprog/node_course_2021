@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Response } from 'express';
 import User from './user.model.js';
 import UserService from './user.service.js';
 
@@ -10,9 +10,7 @@ interface IBodyUser {
   password: string;
 }
 
-router.route('/').get((req, res) => {
-  console.log(req);
-
+router.route('/').get((res: Response) => {
   const users = UserService.getAll();
 
   res.status(200).json(users.map((user) => User.toResponse(user)));
