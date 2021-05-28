@@ -9,6 +9,8 @@
   "description": "REST service starter for RS School",
   "main": "build/server.js",
   "scripts": {
+    "dev": "nodemon",
+    "start:dev": "node --loader ts-node/esm ./src/server.ts",
     "build": "tsc",
     "start": "node build/server.js",
     "lint": "eslint --ext .js,.ts --fix src/",
