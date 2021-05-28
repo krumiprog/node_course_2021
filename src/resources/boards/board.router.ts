@@ -1,11 +1,12 @@
-import { Router, Response } from 'express';
+import { Router } from 'express';
 import Board from './board.model.js';
 import Column from './column.model.js';
 import BoardService from './board.service.js';
 
 const router = Router();
 
-router.route('/').get((res: Response) => {
+router.route('/').get((req, res) => {
+  req;
   const boards = BoardService.getAll();
 
   res.status(200).json(boards);

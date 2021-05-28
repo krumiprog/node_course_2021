@@ -1,4 +1,4 @@
-import { Router, Response } from 'express';
+import { Router } from 'express';
 import User from './user.model.js';
 import UserService from './user.service.js';
 
@@ -10,7 +10,8 @@ interface IBodyUser {
   password: string;
 }
 
-router.route('/').get((res: Response) => {
+router.route('/').get((req, res) => {
+  req;
   const users = UserService.getAll();
 
   res.status(200).json(users.map((user) => User.toResponse(user)));
@@ -21,11 +22,11 @@ router.route('/:id').get((req, res) => {
 
   const user = UserService.getById(id);
 
-  if (user) {
-    res.status(200).json(User.toResponse(user));
+  if (!user) {
+    return res.sendStatus(404);
   }
 
-  res.sendStatus(404);
+  return res.status(200).json(User.toResponse(user));
 });
 
 router.route('/').post((req, res) => {
@@ -45,11 +46,11 @@ router.route('/:id').put((req, res) => {
     new User(undefined, name, login, password)
   );
 
-  if (user) {
-    res.status(200).json(User.toResponse(user));
+  if (!user) {
+    return res.sendStatus(404);
   }
 
-  res.sendStatus(404);
+  return res.status(200).json(User.toResponse(user));
 });
 
 router.route('/:id').delete((req, res) => {
