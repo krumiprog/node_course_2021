@@ -1,5 +1,5 @@
-import TaskRepository from './task.memory.repository.js';
-import Task from './task.model.js';
+import TaskRepository from './task.memory.repository';
+import Task from './task.model';
 
 class TaskService {
   static getAll(boardId: string): Task[] {

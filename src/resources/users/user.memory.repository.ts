@@ -1,5 +1,5 @@
-import DB from '../../db/inMemoryDb.js';
-import User from './user.model.js';
+import DB from '../../db/inMemoryDb';
+import User from './user.model';
 
 class UserRepository {
   static getAll(): User[] {

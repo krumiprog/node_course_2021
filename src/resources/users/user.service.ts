@@ -1,5 +1,5 @@
-import UserRepository from './user.memory.repository.js';
-import User from './user.model.js';
+import UserRepository from './user.memory.repository';
+import User from './user.model';
 
 class UserService {
   static getAll(): User[] {

@@ -1,5 +1,5 @@
-import DB from '../../db/inMemoryDb.js';
-import Task from './task.model.js';
+import DB from '../../db/inMemoryDb';
+import Task from './task.model';
 
 class TaskRepository {
   static getAll(boardId: string): Task[] {

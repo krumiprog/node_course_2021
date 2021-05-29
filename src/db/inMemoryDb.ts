@@ -1,6 +1,6 @@
-import User from '../resources/users/user.model.js';
-import Board from '../resources/boards/board.model.js';
-import Task from '../resources/tasks/task.model.js';
+import User from '../resources/users/user.model';
+import Board from '../resources/boards/board.model';
+import Task from '../resources/tasks/task.model';
 
 interface IDataBase {
   users: User[];

@@ -1,5 +1,5 @@
-import BoardRepository from './board.memory.repository.js';
-import Board from './board.model.js';
+import BoardRepository from './board.memory.repository';
+import Board from './board.model';
 
 class BoardService {
   static getAll(): Board[] {

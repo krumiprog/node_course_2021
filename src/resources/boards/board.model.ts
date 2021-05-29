@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import Column from './column.model.js';
+import Column from './column.model';
 
 class Board {
   constructor(

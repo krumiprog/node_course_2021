@@ -1,5 +1,5 @@
-import DB from '../../db/inMemoryDb.js';
-import Board from './board.model.js';
+import DB from '../../db/inMemoryDb';
+import Board from './board.model';
 
 class BoardRepository {
   static getAll(): Board[] {
