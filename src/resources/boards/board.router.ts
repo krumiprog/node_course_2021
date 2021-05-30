@@ -1,18 +1,23 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import Board from './board.model';
 import Column from './column.model';
 import BoardService from './board.service';
 
 const router = Router();
 
-router.route('/').get((_, res) => {
+interface IBoardDto {
+  title: string;
+  columns: Column[];
+}
+
+router.route('/').get((_: Request, res: Response) => {
   const boards = BoardService.getAll();
 
   res.status(200).json(boards);
 });
 
-router.route('/:id').get((req, res) => {
-  const { id } = req.params;
+router.route('/:id').get((req: Request, res: Response) => {
+  const id = req.params['id'] as string;
 
   const board = BoardService.getById(id);
 
@@ -23,7 +28,7 @@ router.route('/:id').get((req, res) => {
   res.status(200).json(board);
 });
 
-router.route('/').post((req, res) => {
+router.route('/').post((req: Request, res: Response) => {
   const { title, columns } = req.body as {
     title: string;
     columns: { title: string; order: number }[];
@@ -38,21 +43,17 @@ router.route('/').post((req, res) => {
   res.status(201).json(board);
 });
 
-router.route('/:id').put((req, res) => {
-  const { id } = req.params;
-  const { title, columns } = req.body as {
-    title: string;
-    columns: Column[];
-  };
+router.route('/:id').put((req: Request, res: Response) => {
+  const id = req.params['id'] as string;
+  const { title, columns } = req.body as IBoardDto;
 
   const board = BoardService.update(id, new Board(undefined, title, columns));
 
   res.status(200).json(board);
 });
 
-router.route('/:id').delete((req, res) => {
-  const { id } = req.params;
-
+router.route('/:id').delete((req: Request, res: Response) => {
+  const id = req.params['id'] as string;
   const match = BoardService.remove(id);
 
   if (match === -1) {

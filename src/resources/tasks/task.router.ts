@@ -1,10 +1,10 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import Task from './task.model';
 import TaskService from './task.service';
 
 const router = Router();
 
-interface IBodyTask {
+interface ITaskDto {
   title: string;
   order: number;
   description: string;
@@ -13,16 +13,17 @@ interface IBodyTask {
   columnId: string;
 }
 
-router.route('/:boardId/tasks').get((req, res) => {
-  const { boardId } = req.params;
+router.route('/:boardId/tasks').get((req: Request, res: Response) => {
+  const boardId = req.params['boardId'] as string;
 
   const tasks = TaskService.getAll(boardId);
 
   res.status(200).json(tasks);
 });
 
-router.route('/:boardId/tasks/:id').get((req, res) => {
-  const { boardId, id } = req.params;
+router.route('/:boardId/tasks/:id').get((req: Request, res: Response) => {
+  const boardId = req.params['boardId'] as string;
+  const id = req.params['id'] as string;
 
   const task = TaskService.getById(boardId, id);
 
@@ -33,26 +34,19 @@ router.route('/:boardId/tasks/:id').get((req, res) => {
   res.status(200).json(task);
 });
 
-router.route('/:boardId/tasks').post((req, res) => {
-  const { boardId: paramBoardId } = req.params;
-  const { title, order, description, userId, columnId } = req.body as IBodyTask;
+router.route('/:boardId/tasks').post((req: Request, res: Response) => {
+  const boardId = req.params['boardId'] as string;
+  const { title, order, description, userId, columnId } = req.body as ITaskDto;
 
   const task = TaskService.save(
-    new Task(
-      undefined,
-      title,
-      order,
-      description,
-      userId,
-      paramBoardId,
-      columnId
-    )
+    new Task(undefined, title, order, description, userId, boardId, columnId)
   );
   res.status(201).json(task);
 });
 
-router.route('/:boardId/tasks/:id').put((req, res) => {
-  const { boardId: paramBoardId, id: paramId } = req.params;
+router.route('/:boardId/tasks/:id').put((req: Request, res: Response) => {
+  const paramBoardId = req.params['boardId'] as string;
+  const paramId = req.params['id'] as string;
   const {
     title,
     order,
@@ -60,7 +54,7 @@ router.route('/:boardId/tasks/:id').put((req, res) => {
     userId,
     boardId,
     columnId,
-  } = req.body as IBodyTask;
+  } = req.body as ITaskDto;
 
   const task = TaskService.update(
     paramBoardId,
@@ -71,8 +65,9 @@ router.route('/:boardId/tasks/:id').put((req, res) => {
   res.status(200).json(task);
 });
 
-router.route('/:boardId/tasks/:id').delete((req, res) => {
-  const { boardId, id } = req.params;
+router.route('/:boardId/tasks/:id').delete((req: Request, res: Response) => {
+  const boardId = req.params['boardId'] as string;
+  const id = req.params['id'] as string;
   const task = TaskService.remove(boardId, id);
 
   if (task === -1) {
