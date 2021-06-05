@@ -1,7 +1,9 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import Board from './board.model';
 import Column from './column.model';
 import BoardService from './board.service';
+import { StatusCodes } from 'http-status-codes';
+import ApiError from '../../error/ApiError';
 
 const router = Router();
 
@@ -13,19 +15,19 @@ interface IBoardDto {
 router.route('/').get((_: Request, res: Response) => {
   const boards = BoardService.getAll();
 
-  res.status(200).json(boards);
+  res.status(StatusCodes.OK).json(boards);
 });
 
-router.route('/:id').get((req: Request, res: Response) => {
+router.route('/:id').get((req: Request, res: Response, next: NextFunction) => {
   const id = req.params['id'] as string;
 
   const board = BoardService.getById(id);
 
-  if (!board) {
-    res.sendStatus(404);
+  if (board) {
+    res.status(StatusCodes.OK).json(board);
+  } else {
+    next(new ApiError(StatusCodes.NOT_FOUND, `Board with id ${id} not found.`));
   }
-
-  res.status(200).json(board);
 });
 
 router.route('/').post((req: Request, res: Response) => {
@@ -40,27 +42,35 @@ router.route('/').post((req: Request, res: Response) => {
 
   const board = BoardService.save(new Board(undefined, title, columnsWithId));
 
-  res.status(201).json(board);
+  res.status(StatusCodes.CREATED).json(board);
 });
 
-router.route('/:id').put((req: Request, res: Response) => {
+router.route('/:id').put((req: Request, res: Response, next: NextFunction) => {
   const id = req.params['id'] as string;
   const { title, columns } = req.body as IBoardDto;
 
   const board = BoardService.update(id, new Board(undefined, title, columns));
 
-  res.status(200).json(board);
-});
-
-router.route('/:id').delete((req: Request, res: Response) => {
-  const id = req.params['id'] as string;
-  const match = BoardService.remove(id);
-
-  if (match === -1) {
-    res.sendStatus(404);
+  if (board) {
+    res.status(StatusCodes.OK).json(board);
+  } else {
+    next(new ApiError(StatusCodes.NOT_FOUND, `Board with id ${id} not found.`));
   }
-
-  res.sendStatus(204);
 });
+
+router
+  .route('/:id')
+  .delete((req: Request, res: Response, next: NextFunction) => {
+    const id = req.params['id'] as string;
+    const match = BoardService.remove(id);
+
+    if (match === -1) {
+      next(
+        new ApiError(StatusCodes.NOT_FOUND, `Board with id ${id} not found.`)
+      );
+    } else {
+      res.sendStatus(StatusCodes.NO_CONTENT);
+    }
+  });
 
 export default router;
