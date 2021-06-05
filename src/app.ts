@@ -47,4 +47,8 @@ app.use(handleError);
 process.on('uncaughtException', handleUncaughtException);
 process.on('unhandledRejection', handleUnhandledRejection);
 
+// throw new Error('TEST: Uncaught Exception');
+
+// Promise.reject(Error('TEST: Unhandled Rejection'));
+
 export default app;

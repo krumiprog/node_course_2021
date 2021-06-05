@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 import ApiError from '../error/ApiError';
-import { logger } from './logger';
+import { loggers } from './logger';
 
 export const handleError = (
   err: Error,
@@ -9,7 +9,7 @@ export const handleError = (
   res: Response,
   next: NextFunction
 ): void => {
-  logger.log('error', err.message);
+  loggers.logError.log('error', err.message);
 
   if (err instanceof ApiError) {
     res.status(err.status).send(err.message);

@@ -4,13 +4,18 @@ import pkg from 'winston';
 
 const { createLogger, format, transports } = pkg;
 
-export const logger = createLogger({
-  format: format.combine(format.timestamp(), format.json()),
-  transports: [
-    new transports.File({ filename: 'error.log', level: 'error' }),
-    new transports.File({ filename: 'request.log', level: 'info' }),
-  ],
-});
+export const loggers = {
+  logInfo: createLogger({
+    level: 'info',
+    format: format.combine(format.timestamp(), format.json()),
+    transports: [new transports.File({ filename: 'logs/request.log' })],
+  }),
+  logError: createLogger({
+    level: 'error',
+    format: format.combine(format.timestamp(), format.json()),
+    transports: [new transports.File({ filename: 'logs/error.log' })],
+  }),
+};
 
 export const requestLogger = (
   req: Request,
@@ -20,11 +25,11 @@ export const requestLogger = (
   next();
 
   finished(req, res, () => {
-    logger.log(
+    loggers.logInfo.log(
       'info',
       `${req.method} ${req.url} ${res.statusCode} params: ${JSON.stringify(
         req.params
-      )} body: ${JSON.stringify(req.body)}`
+      )} query: ${JSON.stringify(req.query)} body: ${JSON.stringify(req.body)}`
     );
   });
 };
