@@ -1,3 +1,5 @@
 node_modules
 docs
 build
+request.log
+error.log
