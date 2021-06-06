@@ -14,6 +14,7 @@ import {
   handleUncaughtException,
   handleUnhandledRejection,
 } from './middleware/handleException';
+import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -42,13 +43,21 @@ app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 app.use('/boards/:boardId/tasks', taskRouter);
 
+app.use('*', (_req: Request, res: Response) => {
+  res
+    .status(StatusCodes.NOT_FOUND)
+    .send(getReasonPhrase(StatusCodes.NOT_FOUND));
+});
+
 app.use(handleError);
 
 process.on('uncaughtException', handleUncaughtException);
 process.on('unhandledRejection', handleUnhandledRejection);
 
-// throw new Error('TEST: Uncaught Exception');
+// Для проверки uncaughtException
+// throw new Error('Oops!');
 
-// Promise.reject(Error('TEST: Unhandled Rejection'));
+// Для проверки unhandledRejection
+// Promise.reject(Error('Oops!'));
 
 export default app;

@@ -15,4 +15,6 @@ export default {
   MONGO_CONNECTION_STRING: process.env['MONGO_CONNECTION_STRING'],
   JWT_SECRET_KEY: process.env['JWT_SECRET_KEY'],
   AUTH_MODE: process.env['AUTH_MODE'] === 'true',
+  FILE_LOG_REQUEST: process.env['FILE_LOG_REQUEST'],
+  FILE_LOG_ERROR: process.env['FILE_LOG_ERROR']
 };
