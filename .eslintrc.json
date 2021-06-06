@@ -11,16 +11,20 @@
     "ecmaVersion": 2021,
     "ecmaFeatures": {
       "impliedStrict": true
-    }
+    },
+    "project": "./tsconfig.json"
   },
   "settings": {
     "noInlineConfig": true
   },
   "extends": [
     "eslint:recommended",
-    "plugin:node/recommended",
-    "airbnb-base",
-    "prettier"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint"
   ],
   "rules": {
     "import/extensions": "off",

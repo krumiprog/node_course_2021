@@ -42,3 +42,43 @@ To run only one of all test suites (users, boards or tasks)
 ```
 npm test <suite name>
 ```
+
+## Typescript check
+
+---
+
+Compile typescript
+
+```
+npm run build
+```
+
+Running application
+
+```
+npm start
+```
+
+## JSDoc check
+
+---
+
+See tag
+
+```
+git tag
+```
+
+Switch to the commit with the tag for JSDoc
+
+```
+git checkout v1.0
+```
+
+A " doc " script that generates a page with documentation based on JSDoc descriptions
+
+```
+npm run doc
+```
+
+The JSDoc page is created in the **docs** folder
