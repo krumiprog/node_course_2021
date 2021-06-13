@@ -9,7 +9,6 @@ class User {
   ) {}
 
   static toResponse(user: User): Partial<User> {
-    // static toResponse(user: User): { id: string; name: string; login: string } {
     const { id, name, login } = user;
     return { id, name, login };
   }

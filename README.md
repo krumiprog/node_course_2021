@@ -59,26 +59,24 @@ Running application
 npm start
 ```
 
-## JSDoc check
+## Logging
 
 ---
 
-See tag
+Output logging files:
+
+- for requests `logs/request.log`
+
+- for errors `logs/error.log`
+
+To check for exception **uncaughtException**, uncomment a line in the file `app.ts`
 
 ```
-git tag
+throw Error('Oops!');
 ```
 
-Switch to the commit with the tag for JSDoc
+To check for exception **uncaughtException**, uncomment a line in the file `app.ts`
 
 ```
-git checkout v1.0
+Promise.reject(Error('Oops!'));
 ```
-
-A " doc " script that generates a page with documentation based on JSDoc descriptions
-
-```
-npm run doc
-```
-
-The JSDoc page is created in the **docs** folder
