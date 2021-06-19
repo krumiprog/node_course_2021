@@ -1,48 +1,51 @@
-import DB from '../../db/inMemoryDb';
-import Task from './task.model';
+import { DeleteResult, getRepository } from 'typeorm';
+import { Task } from '../entities/index';
+import { ITask } from '../../types/types';
 
 class TaskRepository {
-  static getAll(boardId: string): Task[] {
-    return DB.tasks.filter((task) => task.boardId === boardId);
+  async getAll(boardId: string): Promise<Task[]> {
+    return getRepository(Task).find({ where: { boardId } });
   }
 
-  static getById(boardId: string, id: string): Task | undefined {
-    DB.tasks.find((task) => task.boardId === boardId);
-    return DB.tasks.find((task) => task.id === id);
+  async getById(boardId: string, id: string): Promise<Task | undefined> {
+    return getRepository(Task).findOne({ where: { boardId, id } });
   }
 
-  static save(task: Task): Task {
-    DB.tasks.push(task);
+  async save(task: ITask): Promise<Task> {
+    const newTask = new Task();
+    newTask.title = task.title;
+    newTask.order = task.order;
+    newTask.description = task.description;
+    newTask.userId = task.userId;
+    newTask.boardId = task.boardId;
+    newTask.columnId = task.columnId;
+
+    return getRepository(Task).save(newTask);
+  }
+
+  async update(
+    _boardId: string,
+    id: string,
+    newTask: ITask
+  ): Promise<Task | undefined> {
+    const task = await getRepository(Task).findOne(id);
+
+    if (task) {
+      task.title = newTask.title;
+      task.order = newTask.order;
+      task.description = newTask.description;
+      task.userId = newTask.userId;
+      task.boardId = newTask.boardId;
+      task.columnId = newTask.columnId;
+      return getRepository(Task).save(task);
+    }
+
     return task;
   }
 
-  static update(boardId: string, id: string, newTask: Task): Task | undefined {
-    const match = DB.tasks.find(
-      (task) => task.boardId === boardId && task.id === id
-    );
-
-    if (match) {
-      match.title = newTask.title;
-      match.order = newTask.order;
-      match.description = newTask.description;
-      match.userId = newTask.userId;
-      match.boardId = newTask.boardId;
-      match.columnId = newTask.columnId;
-    }
-
-    return match;
-  }
-
-  static remove(boardId: string, id: string): number {
-    DB.tasks.findIndex((task) => task.boardId === boardId);
-    const match = DB.tasks.findIndex((task) => task.id === id);
-
-    if (match !== -1) {
-      DB.tasks.splice(match, 1);
-    }
-
-    return match;
+  async remove(boardId: string, id: string): Promise<DeleteResult> {
+    return getRepository(Task).delete({ boardId, id });
   }
 }
 
-export default TaskRepository;
+export default new TaskRepository();

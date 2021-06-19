@@ -5,12 +5,12 @@ export class User {
   @PrimaryGeneratedColumn()
   id: string;
 
-  @Column('varchar', { length: 30 })
+  @Column({ type: 'varchar', length: 30 })
   name: string;
 
-  @Column('varchar', { length: 30 })
+  @Column({ type: 'varchar', length: 30 })
   login: string;
 
-  @Column('varchar', { length: 30 })
+  @Column({ type: 'varchar', length: 30 })
   password: string;
 }

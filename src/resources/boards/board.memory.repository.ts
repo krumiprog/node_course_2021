@@ -1,41 +1,79 @@
-import DB from '../../db/inMemoryDb';
-import Board from './board.model';
+import { DeleteResult, getRepository } from 'typeorm';
+import { Board } from '../entities/board';
+import { Colum } from '../entities/colum';
+import { IColum } from '../../types/types';
 
 class BoardRepository {
-  static getAll(): Board[] {
-    return DB.boards;
+  async getAll(): Promise<Board[]> {
+    return getRepository(Board).find({ relations: ['colums'] });
   }
 
-  static getById(id: string): Board | undefined {
-    return DB.boards.find((board) => board.id === id);
+  async getById(id: string): Promise<Board | undefined> {
+    return getRepository(Board).findOne({
+      relations: ['colums'],
+      where: { id },
+    });
   }
 
-  static save(board: Board): Board {
-    DB.boards.push(board);
+  async save(title: string, columns: IColum[]): Promise<Board> {
+    const newBoard = new Board();
+    newBoard.title = title;
+    newBoard.colums = [];
+
+    columns.forEach((column) => {
+      const newColumn = new Colum();
+      newColumn.title = column.title;
+      newColumn.order = column.order;
+      newBoard.colums.push(newColumn);
+    });
+
+    return getRepository(Board).save(newBoard);
+  }
+
+  async update(
+    id: string,
+    title: string,
+    columns: Colum[]
+  ): Promise<Board | undefined> {
+    const board = await getRepository(Board).findOne({
+      relations: ['colums'],
+      where: { id },
+    });
+
+    if (board) {
+      board.colums.forEach((column) => {
+        getRepository(Colum).delete(column.id);
+      });
+
+      board.title = title;
+      board.colums = [];
+
+      columns.forEach((column) => {
+        const newColumn = new Colum();
+        newColumn.id = column.id; // ???
+        newColumn.title = column.title;
+        newColumn.order = column.order;
+        board.colums.push(newColumn);
+      });
+
+      return getRepository(Board).save(board);
+    }
+
     return board;
   }
 
-  static update(id: string, newBoard: Board): Board | undefined {
-    const match = DB.boards.find((board) => board.id === id);
+  async remove(id: string): Promise<DeleteResult> {
+    return getRepository(Board).delete(id);
 
-    if (match) {
-      match.title = newBoard.title;
-      match.columns = newBoard.columns;
-    }
+    // const match = DB.boards.findIndex((board) => board.id === id);
 
-    return match;
-  }
+    // if (match !== -1) {
+    //   DB.tasks = DB.tasks.filter((task) => task.boardId !== id);
+    //   DB.boards.splice(match, 1);
+    // }
 
-  static remove(id: string): number {
-    const match = DB.boards.findIndex((board) => board.id === id);
-
-    if (match !== -1) {
-      DB.tasks = DB.tasks.filter((task) => task.boardId !== id);
-      DB.boards.splice(match, 1);
-    }
-
-    return match;
+    // return match;
   }
 }
 
-export default BoardRepository;
+export default new BoardRepository();

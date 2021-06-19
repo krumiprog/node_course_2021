@@ -4,6 +4,9 @@ import { fileURLToPath } from 'url';
 import { ConnectionOptions } from 'typeorm';
 
 import { User } from '../resources/entities/user';
+import { Board } from '../resources/entities/board';
+import { Colum } from '../resources/entities/colum';
+import { Task } from '../resources/entities/task';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -29,6 +32,6 @@ export const DB_CONFIG = {
   username: process.env['POSTGRES_USER'],
   password: process.env['POSTGRES_PASSWORD'],
   database: process.env['POSTGRES_DB'],
-  entities: [User],
+  entities: [User, Colum, Board, Task],
   synchronize: true,
 } as ConnectionOptions;

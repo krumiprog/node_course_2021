@@ -1,9 +1,9 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import userService from './user.service';
 import { StatusCodes } from 'http-status-codes';
+import userService from './user.service';
 import ApiError from '../../error/ApiError';
-import { toResponse } from '../../utils/toResponse';
 import { IUser } from '../../types/types';
+import { toResponse } from '../../utils/toResponse';
 
 const router = Router();
 

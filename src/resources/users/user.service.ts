@@ -1,7 +1,7 @@
+import { DeleteResult } from 'typeorm';
 import userRepository from './user.memory.repository';
 import { User } from '../entities/user';
 import { IUser } from '../../types/types';
-import { DeleteResult } from 'typeorm';
 
 class UserService {
   async getAll(): Promise<User[]> {
