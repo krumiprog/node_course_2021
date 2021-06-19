@@ -1,7 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-// import { Board } from './board';
-
-import { Board } from './index';
+import { Board } from './board';
 
 @Entity()
 export class Colum {
