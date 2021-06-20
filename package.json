@@ -9,7 +9,7 @@
   "description": "REST service starter for RS School",
   "main": "build/server.js",
   "scripts": {
-    "dev": "nodemon",
+    "dev": "nodemon --legacy-watch \"src/**\" --ext \"ts\" --ignore \"node_modules\" --exec \"npm run start:dev\"",
     "start:dev": "node --loader ts-node/esm --es-module-specifier-resolution=node ./src/server.ts",
     "build": "tsc",
     "start": "node --es-module-specifier-resolution=node build/server.js",
