@@ -1,6 +1,6 @@
-import { DeleteResult, getConnection, getRepository } from 'typeorm';
+import { DeleteResult, getRepository } from 'typeorm';
 import { User } from '../entities/user';
-import { Task } from '../entities/task';
+// import { Task } from '../entities/task';
 import { IUser } from '../../types/types';
 
 class UserRepository {
@@ -37,28 +37,7 @@ class UserRepository {
   async remove(id: string): Promise<DeleteResult> {
     const deleted = await getRepository(User).delete(id);
 
-    if (deleted.affected) {
-      await getConnection()
-        .createQueryBuilder()
-        .update(Task)
-        .set({ userId: null })
-        .where('userId = :id', { id })
-        .execute();
-    }
-
     return deleted;
-
-    // const match = DB.users.findIndex((user) => user.id === id);
-    // DB.users.splice(match, 1);
-
-    // DB.tasks = DB.tasks.map((task) => {
-    //   if (task.userId === id) {
-    //     return { ...task, userId: null };
-    //   }
-    //   return task;
-    // });
-
-    // return match;
   }
 }
 

@@ -1,10 +1,10 @@
 import { DeleteResult, getRepository } from 'typeorm';
-import { Task } from '../entities/index';
+import { Task } from '../entities/task';
 import { ITask } from '../../types/types';
 
 class TaskRepository {
   async getAll(boardId: string): Promise<Task[]> {
-    return getRepository(Task).find({ where: { boardId } });
+    return getRepository(Task).find({ boardId });
   }
 
   async getById(boardId: string, id: string): Promise<Task | undefined> {

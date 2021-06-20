@@ -4,18 +4,15 @@ export interface IUser {
   password: string;
 }
 
-export interface IColum {
+export interface IColumn {
+  id: string;
   title: string;
   order: number;
 }
 
 export interface IBoard {
   title: string;
-  columns: {
-    id: string;
-    title: string;
-    order: number;
-  }[];
+  columns: IColumn[];
 }
 
 export interface ITask {

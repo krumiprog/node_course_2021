@@ -3,7 +3,7 @@ import config from './common/config';
 import app from './app';
 import { tryDBConnect } from './db/db';
 
-const { PORT = 4000 } = config;
+const PORT = config.PORT || 4000;
 
 tryDBConnect(() => {
   app.listen(PORT, () =>

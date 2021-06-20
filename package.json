@@ -5,10 +5,10 @@
     "type": "git",
     "url": ""
   },
-  "type": "module",
   "description": "REST service starter for RS School",
   "main": "build/server.js",
   "scripts": {
+    "mydev": "nodemon ./src/server.ts",
     "dev:local": "nodemon",
     "dev": "nodemon --legacy-watch \"src/**\" --ext \"ts\" --ignore \"node_modules\" --exec \"npm run start:dev\"",
     "start:dev": "node --loader ts-node/esm --es-module-specifier-resolution=node ./src/server.ts",

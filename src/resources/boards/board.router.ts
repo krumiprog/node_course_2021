@@ -2,8 +2,8 @@ import { Router, Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import boardService from './board.service';
 import ApiError from '../../error/ApiError';
-import { Colum } from '../entities/colum';
-import { IColum } from '../../types/types';
+import { IColumn } from '../../types/types';
+import { v4 as uuid } from 'uuid';
 
 const router = Router();
 
@@ -32,10 +32,17 @@ router
 router.route('/').post(async (req: Request, res: Response) => {
   const { title, columns } = req.body as {
     title: string;
-    columns: IColum[];
+    columns: {
+      title: string;
+      order: number;
+    }[];
   };
 
-  const board = await boardService.save(title, columns);
+  const columnsWithId: IColumn[] = columns.map((column) => {
+    return { id: uuid(), ...column };
+  });
+
+  const board = await boardService.save(title, columnsWithId);
   res.status(StatusCodes.CREATED).json(board);
 });
 
@@ -45,7 +52,7 @@ router
     const id = req.params['id'] as string;
     const { title, columns } = req.body as {
       title: string;
-      columns: Colum[];
+      columns: IColumn[];
     };
 
     const board = await boardService.update(id, title, columns);
@@ -72,17 +79,6 @@ router
         new ApiError(StatusCodes.NOT_FOUND, `Board with id ${id} not found.`)
       );
     }
-
-    // const id = req.params['id'] as string;
-    // const match = boardService.remove(id);
-
-    // if (match === -1) {
-    //   next(
-    //     new ApiError(StatusCodes.NOT_FOUND, `Board with id ${id} not found.`)
-    //   );
-    // } else {
-    //   res.sendStatus(StatusCodes.NO_CONTENT);
-    // }
   });
 
 export default router;

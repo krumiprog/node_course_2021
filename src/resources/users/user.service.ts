@@ -1,5 +1,5 @@
 import { DeleteResult } from 'typeorm';
-import userRepository from './user.memory.repository';
+import userRepository from './user.repository';
 import { User } from '../entities/user';
 import { IUser } from '../../types/types';
 

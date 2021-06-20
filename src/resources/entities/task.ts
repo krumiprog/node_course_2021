@@ -1,12 +1,16 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-
-// import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-// import { User } from './user';
-// import { Board } from './board';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { User } from './user';
+import { Board } from './board';
 
 @Entity()
 export class Task {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ type: 'varchar', length: 30 })
@@ -18,19 +22,26 @@ export class Task {
   @Column({ type: 'varchar', length: 30 })
   description: string;
 
-  // @Column('varchar', { length: 10, nullable: true })
-  // @ManyToOne(() => User, (user) => user.tasks, { onDelete: 'SET NULL' })
-  // userId: User;
+  @ManyToOne(() => User, (user) => user.tasks, {
+    onDelete: 'SET NULL',
+    nullable: true,
+  })
+  @JoinColumn({ name: 'userId' })
+  user: string | null;
 
-  // @ManyToOne(() => Board, (board) => board.tasks, { onDelete: 'CASCADE' })
-  // boardId: Board;
+  @ManyToOne(() => Board, (board) => board.tasks, {
+    onDelete: 'CASCADE',
+    nullable: true,
+  })
+  @JoinColumn({ name: 'boardId' })
+  board: string | null;
 
-  @Column({ type: 'varchar', length: 10, nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   userId: string | null;
 
-  @Column({ type: 'varchar', length: 10 })
-  boardId: string;
+  @Column({ type: 'varchar', nullable: true })
+  boardId: string | null;
 
-  @Column({ type: 'varchar', length: 10 })
-  columnId: string;
+  @Column({ type: 'varchar', nullable: true })
+  columnId: string | null;
 }

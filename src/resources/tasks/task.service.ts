@@ -1,6 +1,6 @@
 import { DeleteResult } from 'typeorm';
-import taskRepository from './task.memory.repository';
-import { Task } from '../entities/index';
+import taskRepository from './task.repository';
+import { Task } from '../entities/task';
 import { ITask } from '../../types/types';
 
 class TaskService {

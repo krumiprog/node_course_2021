@@ -2,7 +2,6 @@ import express, { Request, Response, NextFunction } from 'express';
 import swaggerUI from 'swagger-ui-express';
 import path from 'path';
 import YAML from 'yamljs';
-import { fileURLToPath } from 'url';
 
 import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
@@ -15,9 +14,6 @@ import {
   handleUnhandledRejection,
 } from './middleware/handleException';
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const app = express();
 
