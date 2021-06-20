@@ -28,5 +28,9 @@ export const DB_CONFIG = {
   password: process.env['POSTGRES_PASSWORD'],
   database: process.env['POSTGRES_DB'],
   entities: [User, Board, Task],
-  synchronize: true,
+  synchronize: false,
+  migrations: ['../migration/*.ts'],
+  cli: {
+    migrationsDir: '../migration',
+  },
 } as ConnectionOptions;
