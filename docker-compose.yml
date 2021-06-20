@@ -2,7 +2,11 @@ version: '3'
 
 services:
   node:
-    build: Dockerfile.node
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile.node
     networks:
       - krumiprog-net
     depends_on:
@@ -17,7 +21,11 @@ services:
     restart: on-failure
 
   postgres:
-    build: Dockerfile.pg
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile.pg
     networks:
       - krumiprog-net
     ports:
