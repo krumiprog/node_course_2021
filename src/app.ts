@@ -3,7 +3,8 @@ import swaggerUI from 'swagger-ui-express';
 import path from 'path';
 import YAML from 'yamljs';
 
-import authController from './resources/auth.controller';
+// import authController from './resources/auth.controller';
+import authRouter from './resources/auth.router';
 import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
 import taskRouter from './resources/tasks/task.router';
@@ -37,7 +38,10 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
 
 app.use(requestLogger);
 
-app.post('/login', authController.login);
+// app.route('/login').post(authController.login);
+// app.post('/login', authController.login);
+
+app.use('/login', authRouter);
 
 app.use(authCheck);
 
