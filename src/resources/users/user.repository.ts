@@ -1,6 +1,5 @@
 import { DeleteResult, getRepository } from 'typeorm';
 import { User } from '../entities/user';
-// import { Task } from '../entities/task';
 import { IUser } from '../../types/types';
 
 class UserRepository {
@@ -10,6 +9,13 @@ class UserRepository {
 
   async getById(id: string): Promise<User | undefined> {
     return getRepository(User).findOne(id);
+  }
+
+  async getByLoginAndPassword(
+    login: string,
+    password: string
+  ): Promise<User | undefined> {
+    return getRepository(User).findOne({ where: { login, password } });
   }
 
   async save(user: IUser): Promise<User> {

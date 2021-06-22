@@ -12,6 +12,13 @@ class UserService {
     return userRepository.getById(id);
   }
 
+  async getByLoginAndPassword(
+    login: string,
+    password: string
+  ): Promise<User | undefined> {
+    return userRepository.getByLoginAndPassword(login, password);
+  }
+
   async save(user: IUser): Promise<User> {
     return userRepository.save(user);
   }
