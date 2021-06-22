@@ -14,6 +14,7 @@ import {
   handleUnhandledRejection,
 } from './middleware/handleException';
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
+import { authCheck } from './middleware/authCheck';
 
 const app = express();
 
@@ -34,6 +35,8 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use(requestLogger);
+
+app.use(authCheck);
 
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
