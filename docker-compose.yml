@@ -2,6 +2,7 @@ version: '3'
 
 services:
   node:
+    image: krumiprog/rest-service-node:latest
     env_file:
       - .env
     build:
@@ -21,6 +22,7 @@ services:
     restart: on-failure
 
   postgres:
+    image: krumiprog/rest-service-postgres:latest
     env_file:
       - .env
     build:

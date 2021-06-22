@@ -9,8 +9,8 @@
   "main": "build/server.js",
   "scripts": {
     "dev:local": "nodemon",
-    "dev": "nodemon --legacy-watch --exitcrash \"src/**\" --ext \"ts\" --ignore \"node_modules\" --exec \"npm run start:dev\"",
-    "start:dev": "node --loader ts-node/esm --es-module-specifier-resolution=node ./src/server.ts",
+    "dev": "nodemon --legacy-watch --exitcrash",
+    "start:dev": "ts-node ./src/server.ts",
     "build": "tsc",
     "start": "node --es-module-specifier-resolution=node build/server.js",
     "lint": "eslint --ext .js,.ts --fix src/",
