@@ -11,11 +11,8 @@ class UserRepository {
     return getRepository(User).findOne(id);
   }
 
-  async getByLoginAndPassword(
-    login: string,
-    password: string
-  ): Promise<User | undefined> {
-    return getRepository(User).findOne({ where: { login, password } });
+  async getByLogin(login: string): Promise<User | undefined> {
+    return getRepository(User).findOne({ where: { login } });
   }
 
   async save(user: IUser): Promise<User> {

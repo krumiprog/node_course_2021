@@ -8,9 +8,7 @@ class AuthController {
   async login(req: Request, res: Response, next: NextFunction) {
     const { login, password } = req.body as { login: string; password: string };
 
-    // const hashedPassword =
-
-    const data = await userService.getByLoginAndPassword(login, password);
+    const data = await userService.getByLogin(login, password);
 
     if (data) {
       const token = generateToken({ userId: data.id, login: data.login });
