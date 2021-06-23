@@ -5,6 +5,8 @@ import { ConnectionOptions } from 'typeorm';
 import { User } from '../resources/entities/user';
 import { Board } from '../resources/entities/board';
 import { Task } from '../resources/entities/task';
+import { CreateTables1624437385810 as CreateTables } from '../migration/1624437385810-CreateTables';
+import { AddAdmin1624437385811 as AddAdmin } from '../migration/1624437385811-AddAdmin';
 
 dotenv.config({
   path: path.join(__dirname, '../../.env'),
@@ -29,7 +31,8 @@ export const DB_CONFIG = {
   database: process.env['POSTGRES_DB'],
   entities: [User, Board, Task],
   synchronize: false,
-  migrations: ['../migration/*.ts'],
+  migrationsRun: true,
+  migrations: [CreateTables, AddAdmin],
   cli: {
     migrationsDir: '../migration',
   },
