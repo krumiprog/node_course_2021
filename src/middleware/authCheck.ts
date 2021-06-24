@@ -19,18 +19,13 @@ export const authCheck = (
     );
   }
 
-  const jwtToken = authorization.split(' ')[1];
+  const [type, token] = authorization.split(' ');
 
-  if (!jwtToken) {
-    return next(
-      new ApiError(
-        StatusCodes.UNAUTHORIZED,
-        'JWT token not found in HTTP Authorization header.'
-      )
-    );
+  if (type !== 'Bearer' || !token) {
+    return next(new ApiError(StatusCodes.UNAUTHORIZED, 'Wrong auth schema.'));
   }
 
-  const userData = validateToken(jwtToken);
+  const userData = validateToken(token);
 
   if (!userData) {
     return next(new ApiError(StatusCodes.UNAUTHORIZED, 'Invalid JWT token.'));

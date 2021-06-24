@@ -1,10 +1,9 @@
 import bcrypt from 'bcrypt';
 import { DeleteResult } from 'typeorm';
-import { StatusCodes } from 'http-status-codes';
+import config from '../../common/config';
 import userRepository from './user.repository';
 import { User } from '../entities/user';
 import { IUser } from '../../types/types';
-import ApiError from '../../error/ApiError';
 
 class UserService {
   async getAll(): Promise<User[]> {
@@ -15,22 +14,9 @@ class UserService {
     return userRepository.getById(id);
   }
 
-  async getByLogin(login: string, password: string): Promise<User | undefined> {
-    const user = await userRepository.getByLogin(login);
-
-    if (user) {
-      const match = await bcrypt.compare(password, user.password);
-
-      if (!match) {
-        throw new ApiError(StatusCodes.NOT_FOUND, 'Wrong password.');
-      }
-    }
-
-    return user;
-  }
-
   async save(user: IUser): Promise<User> {
-    const hashPassword = await bcrypt.hash(user.password, 5);
+    const salt = await bcrypt.genSalt(Number(config.SALT_ROUNDS));
+    const hashPassword = await bcrypt.hash(user.password, salt);
     return userRepository.save({ ...user, password: hashPassword });
   }
 

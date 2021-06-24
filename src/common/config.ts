@@ -20,6 +20,7 @@ export default {
   AUTH_MODE: process.env['AUTH_MODE'] === 'true',
   FILE_LOG_REQUEST: process.env['FILE_LOG_REQUEST'],
   FILE_LOG_ERROR: process.env['FILE_LOG_ERROR'],
+  SALT_ROUNDS: process.env['SALT_ROUNDS'],
 };
 
 export const DB_CONFIG = {

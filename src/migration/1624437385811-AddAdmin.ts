@@ -1,7 +1,7 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 import bcrypt from 'bcrypt';
 
-const password = bcrypt.hashSync('admin', 5)
+const password = bcrypt.hashSync('admin', bcrypt.genSaltSync(5))
 
 export class AddAdmin1624437385811 implements MigrationInterface {
     name = 'AddAdmin1624437385811'
