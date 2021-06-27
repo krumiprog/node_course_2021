@@ -1,26 +1,32 @@
-import BoardRepository from './board.memory.repository';
-import Board from './board.model';
+import { DeleteResult } from 'typeorm';
+import boardRepository from './board.repository';
+import { Board } from '../entities/board';
+import { IColumn } from '../../types/types';
 
 class BoardService {
-  static getAll(): Board[] {
-    return BoardRepository.getAll();
+  async getAll(): Promise<Board[]> {
+    return boardRepository.getAll();
   }
 
-  static getById(id: string): Board | undefined {
-    return BoardRepository.getById(id);
+  async getById(id: string): Promise<Board | undefined> {
+    return boardRepository.getById(id);
   }
 
-  static save(board: Board): Board {
-    return BoardRepository.save(board);
+  async save(title: string, columns: IColumn[]): Promise<Board> {
+    return boardRepository.save(title, columns);
   }
 
-  static update(id: string, board: Board): Board | undefined {
-    return BoardRepository.update(id, board);
+  async update(
+    id: string,
+    title: string,
+    columns: IColumn[]
+  ): Promise<Board | undefined> {
+    return boardRepository.update(id, title, columns);
   }
 
-  static remove(id: string): number {
-    return BoardRepository.remove(id);
+  async remove(id: string): Promise<DeleteResult> {
+    return boardRepository.remove(id);
   }
 }
 
-export default BoardService;
+export default new BoardService();

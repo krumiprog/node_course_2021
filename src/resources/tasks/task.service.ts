@@ -1,26 +1,32 @@
-import TaskRepository from './task.memory.repository';
-import Task from './task.model';
+import { DeleteResult } from 'typeorm';
+import taskRepository from './task.repository';
+import { Task } from '../entities/task';
+import { ITask } from '../../types/types';
 
 class TaskService {
-  static getAll(boardId: string): Task[] {
-    return TaskRepository.getAll(boardId);
+  async getAll(boardId: string): Promise<Task[]> {
+    return taskRepository.getAll(boardId);
   }
 
-  static getById(boardId: string, id: string): Task | undefined {
-    return TaskRepository.getById(boardId, id);
+  async getById(boardId: string, id: string): Promise<Task | undefined> {
+    return taskRepository.getById(boardId, id);
   }
 
-  static save(task: Task): Task {
-    return TaskRepository.save(task);
+  async save(task: ITask): Promise<Task> {
+    return taskRepository.save(task);
   }
 
-  static update(boardId: string, id: string, task: Task): Task | undefined {
-    return TaskRepository.update(boardId, id, task);
+  async update(
+    boardId: string,
+    id: string,
+    task: ITask
+  ): Promise<Task | undefined> {
+    return taskRepository.update(boardId, id, task);
   }
 
-  static remove(boardId: string, id: string): number {
-    return TaskRepository.remove(boardId, id);
+  async remove(boardId: string, id: string): Promise<DeleteResult> {
+    return taskRepository.remove(boardId, id);
   }
 }
 
-export default TaskService;
+export default new TaskService();

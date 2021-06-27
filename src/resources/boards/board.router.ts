@@ -1,75 +1,83 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import Board from './board.model';
-import Column from './column.model';
-import BoardService from './board.service';
 import { StatusCodes } from 'http-status-codes';
+import boardService from './board.service';
 import ApiError from '../../error/ApiError';
+import { IColumn } from '../../types/types';
+import { v4 as uuid } from 'uuid';
 
 const router = Router();
 
-interface IBoardDto {
-  title: string;
-  columns: Column[];
-}
-
-router.route('/').get((_: Request, res: Response) => {
-  const boards = BoardService.getAll();
+router.route('/').get(async (_: Request, res: Response) => {
+  const boards = await boardService.getAll();
 
   res.status(StatusCodes.OK).json(boards);
 });
 
-router.route('/:id').get((req: Request, res: Response, next: NextFunction) => {
-  const id = req.params['id'] as string;
+router
+  .route('/:id')
+  .get(async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.params['id'] as string;
 
-  const board = BoardService.getById(id);
+    const board = await boardService.getById(id);
 
-  if (board) {
-    res.status(StatusCodes.OK).json(board);
-  } else {
-    next(new ApiError(StatusCodes.NOT_FOUND, `Board with id ${id} not found.`));
-  }
-});
+    if (board) {
+      res.status(StatusCodes.OK).json(board);
+    } else {
+      next(
+        new ApiError(StatusCodes.NOT_FOUND, `Board with id ${id} not found.`)
+      );
+    }
+  });
 
-router.route('/').post((req: Request, res: Response) => {
+router.route('/').post(async (req: Request, res: Response) => {
   const { title, columns } = req.body as {
     title: string;
-    columns: { title: string; order: number }[];
+    columns: {
+      title: string;
+      order: number;
+    }[];
   };
 
-  const columnsWithId: Column[] = columns.map(
-    (column) => new Column(undefined, column.title, column.order)
-  );
+  const columnsWithId: IColumn[] = columns.map((column) => {
+    return { id: uuid(), ...column };
+  });
 
-  const board = BoardService.save(new Board(undefined, title, columnsWithId));
-
+  const board = await boardService.save(title, columnsWithId);
   res.status(StatusCodes.CREATED).json(board);
-});
-
-router.route('/:id').put((req: Request, res: Response, next: NextFunction) => {
-  const id = req.params['id'] as string;
-  const { title, columns } = req.body as IBoardDto;
-
-  const board = BoardService.update(id, new Board(undefined, title, columns));
-
-  if (board) {
-    res.status(StatusCodes.OK).json(board);
-  } else {
-    next(new ApiError(StatusCodes.NOT_FOUND, `Board with id ${id} not found.`));
-  }
 });
 
 router
   .route('/:id')
-  .delete((req: Request, res: Response, next: NextFunction) => {
+  .put(async (req: Request, res: Response, next: NextFunction) => {
     const id = req.params['id'] as string;
-    const match = BoardService.remove(id);
+    const { title, columns } = req.body as {
+      title: string;
+      columns: IColumn[];
+    };
 
-    if (match === -1) {
+    const board = await boardService.update(id, title, columns);
+
+    if (board) {
+      res.status(StatusCodes.OK).json(board);
+    } else {
       next(
         new ApiError(StatusCodes.NOT_FOUND, `Board with id ${id} not found.`)
       );
-    } else {
+    }
+  });
+
+router
+  .route('/:id')
+  .delete(async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.params['id'] as string;
+    const deleted = await boardService.remove(id);
+
+    if (deleted.affected) {
       res.sendStatus(StatusCodes.NO_CONTENT);
+    } else {
+      next(
+        new ApiError(StatusCodes.NOT_FOUND, `Board with id ${id} not found.`)
+      );
     }
   });
 

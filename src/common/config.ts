@@ -1,9 +1,10 @@
 import dotenv from 'dotenv';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import { ConnectionOptions } from 'typeorm';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { User } from '../resources/entities/user';
+import { Board } from '../resources/entities/board';
+import { Task } from '../resources/entities/task';
 
 dotenv.config({
   path: path.join(__dirname, '../../.env'),
@@ -16,5 +17,20 @@ export default {
   JWT_SECRET_KEY: process.env['JWT_SECRET_KEY'],
   AUTH_MODE: process.env['AUTH_MODE'] === 'true',
   FILE_LOG_REQUEST: process.env['FILE_LOG_REQUEST'],
-  FILE_LOG_ERROR: process.env['FILE_LOG_ERROR']
+  FILE_LOG_ERROR: process.env['FILE_LOG_ERROR'],
 };
+
+export const DB_CONFIG = {
+  type: 'postgres',
+  host: process.env['POSTGRES_HOST'],
+  port: process.env['POSTGRES_PORT'],
+  username: process.env['POSTGRES_USER'],
+  password: process.env['POSTGRES_PASSWORD'],
+  database: process.env['POSTGRES_DB'],
+  entities: [User, Board, Task],
+  synchronize: false,
+  migrations: ['../migration/*.ts'],
+  cli: {
+    migrationsDir: '../migration',
+  },
+} as ConnectionOptions;

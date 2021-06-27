@@ -17,6 +17,12 @@ git clone {repository URL}
 npm install
 ```
 
+## Build application
+
+```
+npm run build
+```
+
 ## Running application
 
 ```
@@ -43,11 +49,31 @@ Stop and remove containers, networks (Remove named volumes declared in the volum
 docker-compose down -v
 ```
 
-## Testing
+## Migration, create tables in the database
 
 ---
 
-After application running open new terminal and enter:
+Go inside the container that is running in the background, run the following command
+
+```
+docker exec -it <name or id container> sh
+```
+
+Example with (**node_course_2021_node_1**)
+
+```
+docker exec -it node_course_2021_node_1 sh
+```
+
+Perform a migration to create tables in the database
+
+```
+npm run db:init
+```
+
+## Testing
+
+---
 
 To run all tests without authorization
 
@@ -59,20 +85,4 @@ To run only one of all test suites (users, boards or tasks)
 
 ```
 npm test <suite name>
-```
-
-## Typescript check
-
----
-
-Compile typescript
-
-```
-npm run build
-```
-
-Running application
-
-```
-npm start
 ```

@@ -1,26 +1,28 @@
-import UserRepository from './user.memory.repository';
-import User from './user.model';
+import { DeleteResult } from 'typeorm';
+import userRepository from './user.repository';
+import { User } from '../entities/user';
+import { IUser } from '../../types/types';
 
 class UserService {
-  static getAll(): User[] {
-    return UserRepository.getAll();
+  async getAll(): Promise<User[]> {
+    return userRepository.getAll();
   }
 
-  static getById(id: string): User | undefined {
-    return UserRepository.getById(id);
+  async getById(id: string): Promise<User | undefined> {
+    return userRepository.getById(id);
   }
 
-  static save(user: User): User {
-    return UserRepository.save(user);
+  async save(user: IUser): Promise<User> {
+    return userRepository.save(user);
   }
 
-  static update(id: string, user: User): User | undefined {
-    return UserRepository.update(id, user);
+  async update(id: string, user: IUser): Promise<User | undefined> {
+    return userRepository.update(id, user);
   }
 
-  static remove(id: string): number {
-    return UserRepository.remove(id);
+  async remove(id: string): Promise<DeleteResult> {
+    return userRepository.remove(id);
   }
 }
 
-export default UserService;
+export default new UserService();

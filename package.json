@@ -5,18 +5,20 @@
     "type": "git",
     "url": ""
   },
-  "type": "module",
   "description": "REST service starter for RS School",
   "main": "build/server.js",
   "scripts": {
-    "dev": "nodemon --legacy-watch \"src/**\" --ext \"ts\" --ignore \"node_modules\" --exec \"npm run start:dev\"",
+    "dev:local": "nodemon",
+    "dev": "nodemon --legacy-watch --exitcrash \"src/**\" --ext \"ts\" --ignore \"node_modules\" --exec \"npm run start:dev\"",
     "start:dev": "node --loader ts-node/esm --es-module-specifier-resolution=node ./src/server.ts",
     "build": "tsc",
     "start": "node --es-module-specifier-resolution=node build/server.js",
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",
-    "doc": "jsdoc -c jsdoc.json"
+    "doc": "jsdoc -c jsdoc.json",
+    "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
+    "db:init": "npm run typeorm migration:run"
   },
   "keywords": [
     "rs",
@@ -52,7 +54,10 @@
     "dotenv": "9.0.0",
     "express": "4.17.1",
     "http-status-codes": "^2.1.4",
+    "pg": "^8.6.0",
+    "reflect-metadata": "^0.1.13",
     "swagger-ui-express": "4.1.6",
+    "typeorm": "^0.2.34",
     "uuid": "8.3.2",
     "winston": "^3.3.3",
     "yamljs": "0.3.0"
