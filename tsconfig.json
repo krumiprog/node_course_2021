@@ -5,6 +5,10 @@
     "allowJs": false,
     "outDir": "./build",
     "rootDir": "./src",
+    "typeRoots": [
+      "./src/custom_typings",
+      "./node_modules/@types"
+    ],
     "downlevelIteration": false,
     "strict": true,
     "noUnusedLocals": true,

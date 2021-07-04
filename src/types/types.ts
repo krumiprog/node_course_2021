@@ -23,3 +23,8 @@ export interface ITask {
   boardId: string;
   columnId: string;
 }
+
+export interface IToken {
+  userId: string;
+  login: string;
+}

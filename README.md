@@ -53,6 +53,12 @@ docker-compose down -v
 
 ---
 
+All migrations for creating tables and the administrator user are performed automatically when the application is launched
+
+## Testing in the container
+
+---
+
 Go inside the container that is running in the background, run the following command
 
 ```
@@ -65,10 +71,16 @@ Example with (**node_course_2021_node_1**)
 docker exec -it node_course_2021_node_1 sh
 ```
 
-Perform a migration to create tables in the database
+To run all test with authorization
 
 ```
-npm run db:init
+npm run test:auth
+```
+
+To run only specific test suite with authorization (users, boards or tasks)
+
+```
+npm run test:auth <suite name>
 ```
 
 ## Testing

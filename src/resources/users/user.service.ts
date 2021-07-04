@@ -1,4 +1,6 @@
+import bcrypt from 'bcrypt';
 import { DeleteResult } from 'typeorm';
+import config from '../../common/config';
 import userRepository from './user.repository';
 import { User } from '../entities/user';
 import { IUser } from '../../types/types';
@@ -13,7 +15,9 @@ class UserService {
   }
 
   async save(user: IUser): Promise<User> {
-    return userRepository.save(user);
+    const salt = await bcrypt.genSalt(Number(config.SALT_ROUNDS));
+    const hashPassword = await bcrypt.hash(user.password, salt);
+    return userRepository.save({ ...user, password: hashPassword });
   }
 
   async update(id: string, user: IUser): Promise<User | undefined> {

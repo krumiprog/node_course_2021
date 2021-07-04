@@ -3,6 +3,7 @@ import swaggerUI from 'swagger-ui-express';
 import path from 'path';
 import YAML from 'yamljs';
 
+import loginRouter from './resources/login/login.router';
 import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
 import taskRouter from './resources/tasks/task.router';
@@ -14,10 +15,12 @@ import {
   handleUnhandledRejection,
 } from './middleware/handleException';
 import { getReasonPhrase, StatusCodes } from 'http-status-codes';
+import { authCheck } from './middleware/authCheck';
 
 const app = express();
 
 app.use(express.json());
+app.use(requestLogger);
 
 app.use(
   '/doc',
@@ -33,7 +36,9 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-app.use(requestLogger);
+app.use('/login', loginRouter);
+
+app.use(authCheck);
 
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
