@@ -6,6 +6,9 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { User } from './users/entities/user.entity';
 import { BoardsModule } from './boards/boards.module';
+import { TasksModule } from './tasks/tasks.module';
+import { Board } from './boards/entities/board.entity';
+import { Task } from './tasks/entities/task.entity';
 
 @Module({
   imports: [
@@ -17,10 +20,9 @@ import { BoardsModule } from './boards/boards.module';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      entities: [User],
-      // entities: [User, Board, Task],
+      entities: [User, Board, Task],
       synchronize: true,
-      // migrationsRun: true,
+      migrationsRun: false,
       // migrations: [CreateTables, AddAdmin],
       // cli: {
       //   migrationsDir: '../migration',
@@ -28,6 +30,7 @@ import { BoardsModule } from './boards/boards.module';
     }),
     UsersModule,
     BoardsModule,
+    TasksModule,
   ],
   controllers: [AppController],
   providers: [AppService],
