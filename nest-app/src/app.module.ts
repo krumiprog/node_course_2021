@@ -10,14 +10,28 @@ import { AuthModule } from './auth/auth.module';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { HttpExceptionFilter } from './middleware/http-exeption.filter';
 import { LoggerMiddleware } from './middleware/logger.middleware';
+import { WinstonModule } from 'nest-winston';
+import * as winston from 'winston';
 
+import { CONFIG } from './common/config';
 import { CONFIG_DB } from './common/ormconfig';
+
 import { LoggingInterceptor } from './middleware/logging.interceptor';
 
 @Module({
   imports: [
     // ConfigModule.forRoot(),
     TypeOrmModule.forRoot(CONFIG_DB),
+    WinstonModule.forRoot({
+      level: 'info',
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.json(),
+      ),
+      transports: [
+        new winston.transports.File({ filename: CONFIG.FILE_LOG_REQUEST }),
+      ],
+    }),
     UsersModule,
     BoardsModule,
     TasksModule,
