@@ -5,6 +5,7 @@ import { DeleteResult, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import { CONFIG } from '../common/config';
 
 @Injectable()
 export class UsersService {
@@ -15,7 +16,7 @@ export class UsersService {
   async create(createUserDto: CreateUserDto): Promise<User> {
     const { name, login, password } = createUserDto;
 
-    const salt = await genSalt(Number(process.env.SALT_ROUNDS));
+    const salt = await genSalt(CONFIG.SALT_ROUNDS);
     const hashPassword = await hash(password, salt);
 
     const newUser = new User();
