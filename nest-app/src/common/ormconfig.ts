@@ -2,9 +2,9 @@ import * as dotenv from 'dotenv';
 import * as path from 'path';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
-import { User } from '../users/entities/user.entity';
-import { Board } from '../boards/entities/board.entity';
-import { Task } from '../tasks/entities/task.entity';
+import { User } from '../resources/users/entities/user.entity';
+import { Board } from '../resources/boards/entities/board.entity';
+import { Task } from '../resources/tasks/entities/task.entity';
 import { CreateTables1624437385810 as CreateTables } from '../migration/1624437385810-CreateTables';
 import { AddAdmin1624437385811 as AddAdmin } from '../migration/1624437385811-AddAdmin';
 

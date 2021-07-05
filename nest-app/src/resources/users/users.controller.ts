@@ -3,19 +3,19 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
+  NotFoundException,
   Param,
   Post,
   Put,
-  HttpCode,
-  HttpStatus,
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { userToResponse } from 'src/utils/userToResponse';
-import { UserNotFoundException } from 'src/errors/user-not-found.error';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { userToResponse } from '../../utils/userToResponse';
+import { AuthGuard } from '../../auth/auth.guard';
 
 @Controller('users')
 @UseGuards(AuthGuard)
@@ -41,7 +41,7 @@ export class UsersController {
     if (user) {
       return userToResponse(user);
     } else {
-      throw new UserNotFoundException();
+      throw new NotFoundException();
     }
   }
 
@@ -52,7 +52,7 @@ export class UsersController {
     if (user) {
       return userToResponse(user);
     } else {
-      throw new UserNotFoundException();
+      throw new NotFoundException();
     }
   }
 
@@ -64,7 +64,7 @@ export class UsersController {
     if (deleted.affected) {
       return;
     } else {
-      throw new UserNotFoundException();
+      throw new NotFoundException();
     }
   }
 }
