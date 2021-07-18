@@ -5,33 +5,34 @@
 - Git - [Download & Install Git](https://git-scm.com/downloads).
 - Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
 
+## Description
+
+[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+
 ## Downloading
 
 ```
 git clone {repository URL}
 ```
 
-## Installing NPM modules
+## Installation
 
 ```
 npm install
 ```
 
-## Build application
+## Running the app
 
-```
-npm run build
-```
+```bash
+# development
+$ npm run start
 
-## Running application
+# watch mode
+$ npm run start:dev
 
+# production mode
+$ npm run start:prod
 ```
-npm start
-```
-
-After starting the app on port (4000 as default) you can open
-in your browser OpenAPI documentation by typing http://localhost:4000/doc/.
-For more information about OpenAPI/Swagger please visit https://swagger.io/.
 
 ## Docker
 
@@ -83,18 +84,26 @@ To run only specific test suite with authorization (users, boards or tasks)
 npm run test:auth <suite name>
 ```
 
-## Testing
+## Performance report
 
----
+# Express
 
-To run all tests without authorization
+|                   |                              |                                        |
+| ----------------- | ---------------------------- | -------------------------------------- |
+| Requests          | [Completed]                  | 600                                    |
+| Mean              | [respsonse/sec]              | 5.96                                   |
+| Response latency  | [min, max, median, p95, p99] | 2, 234, 11, 31, 56.5 (msec)            |
+| Scenario duration | [min, max, median, p95, p99] | 59.9, 638.4, 91.5, 182.2, 519.6 (msec) |
+| Scenario counts   | [counts]                     | 100 (100%)                             |
+| Status Codes      | [code:count]                 | "200": 300, "201": 200, "204": 100     |
 
-```
-npm test
-```
+# Fastify
 
-To run only one of all test suites (users, boards or tasks)
-
-```
-npm test <suite name>
-```
+|                   |                              |                                      |
+| ----------------- | ---------------------------- | ------------------------------------ |
+| Requests          | [Completed]                  | 600                                  |
+| Mean              | [respsonse/sec]              | 6.02                                 |
+| Response latency  | [min, max, median, p95, p99] | 2, 88, 11, 32, 57.5 (msec)           |
+| Scenario duration | [min, max, median, p95, p99] | 61, 327.8, 97.3, 154.2, 264.2 (msec) |
+| Scenario counts   | [counts]                     | 100 (100%)                           |
+| Status Codes      | [code:count]                 | "200": 300, "201": 200, "204": 100   |

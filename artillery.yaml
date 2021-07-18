@@ -1,0 +1,47 @@
+config:
+  target: "http://localhost:4000"
+  phases:
+    - duration: 100
+      arrivalRate: 1
+scenarios:
+  - name: Users module
+    flow:
+      - post:
+          url: "/login"
+          json:
+            login: "admin"
+            password: "admin"
+          capture:
+            json: "$.token"
+            as: "token"
+      - post:
+          url: "/users"
+          headers:
+            Authorization: "Bearer {{ token }}"
+          json:
+            name: "1_name"
+            login: "1_login"
+            password: "1_password"
+          capture:
+            json: "$.id"
+            as: "id"
+      - get:
+          url: "/users"
+          headers:
+            Authorization: "Bearer {{ token }}"
+      - get:
+          url: "/users/{{ id }}"
+          headers:
+            Authorization: "Bearer {{ token }}"
+      - put:
+          url: "/users/{{ id }}"
+          headers:
+            Authorization: "Bearer {{ token }}"
+          json:
+            name: "2_name"
+            login: "2_login"
+            password: "2_password"
+      - delete:
+          url: "/users/{{ id }}"
+          headers:
+            Authorization: "Bearer {{ token }}"
