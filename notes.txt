@@ -1,0 +1,78 @@
+// docker notes command test
+
+docker image ls
+
+docker image rm node-app-image -f
+
+docker build -t node-app-image .
+
+docker run -p 3000:3000 -d --name node-app node-app-image
+
+docker ps 
+
+docker system prune -a
+
+
+docker exec -it node-app bash
+
+docker rm node-app -f
+
+docker run -v %cd%:/app -p 3000:3000 -d --name node-app node-app-image		cmd
+docker run -v ${pwd}:/app -p 3000:3000 -d --name node-app node-app-image	powershell
+docker run -v $(pwd):/app -p 3000:3000 -d --name node-app node-app-image	linux
+
+docker logs node-app
+
+docker run -v ${pwd}:/app -v /app/node_modules -p 3000:3000 -d --name node-app node-app-image
+
+docker run -v ${pwd}:/app:ro -v /app/node_modules -p 3000:3000 -d --name node-app node-app-image
+
+docker run -v ${pwd}:/app:ro -v /app/node_modules --env PORT=4000 -p 3000:4000 -d --name node-app node-app-image
+
+docker run -v ${pwd}:/app:ro -v /app/node_modules --env-file ./.env PORT=4000 -p 3000:4000 -d --name node-app node-app-image
+
+docker volume ls
+
+docker container prune
+docker volume prune
+docker rm node-app -fv		delete volume with a container
+
+docker-compose up -d
+docker-compose up -d --build
+docker-compose down -v
+
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+
+
+// bash
+mongo -u "krumiprog" -p "mypassword"
+docker exec -it first_test_mongo_1 mongo -u "krumiprog" -p "mypassword"
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
+
+when run volume
+docker volume prune
+
+docker exec -it node_course_2021_node_1 sh
+
+
+docker exec -it node_course_2021_node bash
+
+docker run -it --entrypoint /bin/bash node_course_2021_node_1
+
+node_course_2021_node_1
+
+
+docker exec -it rs-school-node-js-app_node_1 sh
+
+docker exec -it node_container sh
+
+docker build -t node -f ./Dockerfile.node .
+docker tag node krumiprog/rest-service-node:latest
+docker push krumiprog/rest-service-node:latest
+
+
+docker build -t postgres -f ./Dockerfile.pg .
+docker tag postgres krumiprog/rest-service-postgres:latest
+docker push krumiprog/rest-service-postgres:latest
